@@ -1,0 +1,7 @@
+---
+users:
+  sandbox.owner@example.gov:
+    name: "Sandbox Owner"
+  sandbox.dev@example.gov:
+    name: "Sandbox Dev"
+    username: "sandydev"
