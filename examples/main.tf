@@ -1,12 +1,13 @@
 # Example usage of modules
-# Start customer groups
+# Start groups
 locals {
   groups         = yamldecode(file("./groups.yaml.sample"))
   group_owners   = { for email, user in local.users["users"] : email => [for slug, customer in local.groups["customers"] : slug if contains(lookup(customer, "owners", []), email)] }
 }
 
 module "example-customer-groups" {
-  source = "../modules/group-module"
+  # See how to select revisions https://developer.hashicorp.com/terraform/language/modules/sources#selecting-a-revision
+  source = "github.com/cloud-gov/terraform-gitlab-modules//group?ref=SHA"
 
   groups = { for slug, customer in local.groups["customers"] :
     slug => {
@@ -20,13 +21,14 @@ module "example-customer-groups" {
     }
   }
 }
+# End groups
 
 # Start users
 locals {
   users = yamldecode(file("./users.yaml.sample"))
 }
 module "users" {
-  source = "../modules/user-module"
+  source = "github.com/cloud-gov/terraform-gitlab-modules//user?ref=SHA"
   groups = { for slug, role_groups in module.example-customer-groups.role_groups : "${slug}-owner" => role_groups.owner }
 
   users = { for email, user in local.users["users"] :
@@ -51,7 +53,7 @@ locals {
   projects = yamldecode(file("./projects.yaml.sample"))
 }
 module "example-projects" {
-  source = "../modules/project-module"
+  source = "github.com/cloud-gov/terraform-gitlab-modules//group?ref=SHA"
   groups = module.example-customer-groups.created_groups
   #Create a configuration project for each top level group
   projects = {
@@ -81,5 +83,5 @@ resource "gitlab_branch_protection" "BranchProtect" {
   unprotect_access_level = "admin"
   allow_force_push       = false
 }
-# End Customer Config Projects
+# End Projects
 
