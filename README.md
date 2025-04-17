@@ -1,3 +1,3 @@
-# Github templates
+# Gitlab Terraform module
 
-This repo contains Github templates (pull request, issue, etc) for the cloud-gov organization.
+Terraform module for creating Groups, Users, and Projects.
