@@ -1,0 +1,23 @@
+---
+customers:
+  customer-sandbox:
+    name: Customer Sandbox
+    description: "The top-level group for a customer"
+    visibility: "public"
+    runner:
+      register: false
+      instances: 1
+      cg_emails: ["email@something.gov"]
+      allow_ssh: true
+      technologies:
+        - ruby
+        - node
+        - terraform
+      worker_allowlist:
+        - github.com
+  customer-2:
+    name: Customer Group2
+    description: "Top Level Group for a 2nd customer"
+    visibility: "internal"
+    runner:
+      register: false

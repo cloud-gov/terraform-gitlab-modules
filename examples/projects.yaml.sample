@@ -1,0 +1,18 @@
+---
+projects:
+    example_project_1:
+      name: example_project_1
+      description: example project 1
+      namespace: customer-sandbox
+      initialize_with_readme: true 
+      visibility: internal
+      push_rules: # optional, check https://docs.gitlab.com/ee/api/projects.html for the details
+        commit_committer_check: false # required, if push_rules key used, all other push_rules sub options are optional
+        reject_unsigned_commits: False
+        deny_delete_tag: False
+        member_check: true
+        prevent_secrets: true
+        branch_name_regex: ""
+        author_email_regex: ""
+        file_name_regex: ""
+        max_file_size: 0
