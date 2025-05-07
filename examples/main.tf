@@ -1,8 +1,8 @@
 # Example usage of modules
 # Start groups
 locals {
-  groups         = yamldecode(file("./groups.yaml.sample"))
-  group_owners   = { for email, user in local.users["users"] : email => [for slug, customer in local.groups["customers"] : slug if contains(lookup(customer, "owners", []), email)] }
+  groups       = yamldecode(file("./groups.yaml.sample"))
+  group_owners = { for email, user in local.users["users"] : email => [for slug, customer in local.groups["customers"] : slug if contains(lookup(customer, "owners", []), email)] }
 }
 
 module "example-customer-groups" {
@@ -62,7 +62,7 @@ module "example-projects" {
       name                   = "${project["name"]}"
       namespace_id           = module.example-customer-groups.created_groups[project["namespace"]].id
       approvals_before_merge = 2
-      default_branch = "main"
+      default_branch         = "main"
       initialize_with_readme = true
       shared_groups          = {}
       push_rules = {
@@ -102,7 +102,7 @@ locals {
 }
 
 module "group_membership" {
-  source      = "../group_membership"
+  source = "../group_membership"
   memberships = merge([
     for subgroup in local.subgroups["subgroups"] : {
       for key, member in subgroup.members :
