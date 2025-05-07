@@ -1,8 +1,8 @@
 # Example usage of modules
 # Start groups
 locals {
-  groups         = yamldecode(file("./groups.yaml.sample"))
-  group_owners   = { for email, user in local.users["users"] : email => [for slug, customer in local.groups["customers"] : slug if contains(lookup(customer, "owners", []), email)] }
+  groups       = yamldecode(file("./groups.yaml.sample"))
+  group_owners = { for email, user in local.users["users"] : email => [for slug, customer in local.groups["customers"] : slug if contains(lookup(customer, "owners", []), email)] }
 }
 
 module "example-customer-groups" {
@@ -62,7 +62,7 @@ module "example-projects" {
       name                   = "${project["name"]}"
       namespace_id           = module.example-customer-groups.created_groups[project["namespace"]].id
       approvals_before_merge = 2
-      default_branch = "main"
+      default_branch         = "main"
       initialize_with_readme = true
       shared_groups          = {}
       push_rules = {
@@ -84,4 +84,34 @@ resource "gitlab_branch_protection" "BranchProtect" {
   allow_force_push       = false
 }
 # End Projects
+#Start group membership
+locals {
+  subgroups = yamldecode(file("./subgroups.yaml"))
+  gl_groups = {
+    for group in data.gitlab_groups.groups.groups : group.full_path => {
+      id   = group.group_id
+      name = group.name
+      path = group.path
+  } }
 
+  gl_users = {
+    for user in data.gitlab_users.users.users : user.email => {
+      id   = user.id
+      name = user.name
+  } }
+}
+
+module "group_membership" {
+  source = "../group_membership"
+  memberships = merge([
+    for subgroup in local.subgroups["subgroups"] : {
+      for key, member in subgroup.members :
+      "${key}" => {
+        group_id     = local.gl_groups["${subgroup["parent"]}/${subgroup["name"]}/roles/${member["role"]}s"].id
+        user_id      = local.gl_users["${key}"].id
+        access_level = member.role
+      }
+  }]...)
+
+}
+# End Group Membership
