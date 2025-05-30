@@ -1,9 +1,11 @@
+
 variable "memberships" {
   description = "Map of memberships"
   type = map(object({
-    group_id     = number
-    user_id      = number
+    group_name   = string
+    user_name    = string
     access_level = string
+    parent       = string
     })
   )
 }
