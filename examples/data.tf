@@ -3,5 +3,6 @@ data "gitlab_groups" "groups" {
 }
 
 data "gitlab_users" "users" {
-  sort = "asc"
+  sort                 = "asc"
+  without_project_bots = true
 }

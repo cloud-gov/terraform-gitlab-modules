@@ -29,7 +29,6 @@ locals {
 }
 module "users" {
   source = "github.com/cloud-gov/terraform-gitlab-modules//user?ref=SHA"
-  groups = { for slug, role_groups in module.example-customer-groups.role_groups : "${slug}-owner" => role_groups.owner }
 
   users = { for email, user in local.users["users"] :
     email => {
@@ -52,8 +51,10 @@ module "users" {
 locals {
   projects = yamldecode(file("./projects.yaml.sample"))
 }
+
+
 module "example-projects" {
-  source = "github.com/cloud-gov/terraform-gitlab-modules//group?ref=SHA"
+  source = "github.com/cloud-gov/terraform-gitlab-modules//project?ref=SHA"
   groups = module.example-customer-groups.created_groups
   #Create a configuration project for each top level group
   projects = {
@@ -87,31 +88,53 @@ resource "gitlab_branch_protection" "BranchProtect" {
 #Start group membership
 locals {
   subgroups = yamldecode(file("./subgroups.yaml"))
+
   gl_groups = {
     for group in data.gitlab_groups.groups.groups : group.full_path => {
       id   = group.group_id
       name = group.name
       path = group.path
   } }
-
-  gl_users = {
-    for user in data.gitlab_users.users.users : user.email => {
-      id   = user.id
-      name = user.name
-  } }
 }
-
+module "customer-subgroups" {
+  # See how to select revisions https://developer.hashicorp.com/terraform/language/modules/sources#selecting-a-revision
+  source = "github.com/cloud-gov/terraform-gitlab-modules//group?ref=SHA"
+  groups = { for slug, subgroup in local.subgroups["subgroups"] :
+    slug => {
+      name             = subgroup["name"]
+      path             = slug
+      parent_id        = local.gl_groups[subgroup["parent"]].id
+      description      = lookup(subgroup, "description", "")
+      visibility_level = lookup(subgroup, "visibility", "public")
+      #register_runner         = subgroup["runner"]["register"]
+      project_creation_level  = "owner"
+      subgroup_creation_level = "owner"
+    }
+  }
+}
+locals {
+  gm = flatten([
+    for subgroup_key, subgroup in local.subgroups["subgroups"] : [
+      for member_key, member in subgroup.members : [
+        for key in member : {
+          group_name        = subgroup_key
+          user_name         = key
+          role              = member_key
+          parent_group_path = subgroup.parent
+        }
+      ]
+    ]
+  ])
+}
 module "group_membership" {
-  source = "../group_membership"
-  memberships = merge([
-    for subgroup in local.subgroups["subgroups"] : {
-      for key, member in subgroup.members :
-      "${key}" => {
-        group_id     = local.gl_groups["${subgroup["parent"]}/${subgroup["name"]}/roles/${member["role"]}s"].id
-        user_id      = local.gl_users["${key}"].id
-        access_level = member.role
-      }
-  }]...)
-
+  source = "github.com/cloud-gov/terraform-gitlab-modules//group_membership?ref=SHA"
+  memberships = {
+    for group_member in local.gm :
+    "${group_member.user_name}" => {
+      group_name        = group_member.group_name
+      user_name         = group_member.user_name
+      access_level      = group_member.role
+      parent_group_path = group_member.parent_group_path
+  } }
 }
 # End Group Membership
