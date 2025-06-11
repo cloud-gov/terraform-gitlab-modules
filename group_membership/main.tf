@@ -8,15 +8,15 @@ locals {
   } }
 
   gl_users = {
-    for user in data.gitlab_users.users.users : user.email => {
+    for user in data.gitlab_users.users.users : user.username => {
       id   = user.id
-      name = user.name
+      name = user.username
   } }
 }
 
 resource "gitlab_group_membership" "group_membership" {
   for_each     = var.memberships
-  user_id      = local.gl_users["${each.value.user_name}"].id
+  user_id      = local.gl_users["${each.value.name}"].id
   group_id     = local.gl_groups["${each.value.parent_group_path}/${each.value.group_name}/roles/${each.value.access_level}"].id
   access_level = each.value.access_level
 }
