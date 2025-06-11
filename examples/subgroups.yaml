@@ -1,0 +1,24 @@
+---
+subgroups:
+  that-one-group:
+    name: that-one-group
+    parent: "devtools-staging"
+    description: "Subgroup for sandbox"
+    visibility: "private"
+    members:
+      owners: 
+        - sample.person@email.com 
+      developers:
+        - sample.person2@email.com
+  that-other-group:
+    name: that-other-group
+    parent: "devtools-staging"
+    description: "Subgroup for sandbox"
+    visibility: "private"
+    members: 
+      owners:
+        - sample.person3@email.com
+      developers:
+        - sample.person4@email.com
+      reporters:
+        - sample.person5@email.com 
