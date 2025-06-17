@@ -1,10 +1,10 @@
 
 locals {
   gl_groups = {
-    for group in data.gitlab_groups.groups.groups : group.full_path => {
-      id   = group.group_id
-      name = group.name
-      path = group.path
+    for group in var.groups : group.full_path => {
+      id   = group.id
+      name = group.group_name
+      path = group.full_path
   } }
 
   gl_users = {
