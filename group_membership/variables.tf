@@ -13,8 +13,7 @@ variable "memberships" {
 variable "groups" {
   description = "Map of groups"
   type = map(object({
-    path  = string
-    name = string
+    full_path  = string
     id         = string
     })
   )

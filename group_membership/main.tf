@@ -1,10 +1,8 @@
 
 locals {
   gl_groups = {
-    for group in var.groups : group.path => {
+    for group in var.groups : group.full_path => {
       id   = group.id
-      name = group.name
-      path = group.path
   } }
 
   gl_users = {
