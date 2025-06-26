@@ -9,12 +9,3 @@ variable "memberships" {
     })
   )
 }
-
-variable "groups" {
-  description = "Map of groups"
-  type = map(object({
-    full_path = string
-    id        = string
-    })
-  )
-}
