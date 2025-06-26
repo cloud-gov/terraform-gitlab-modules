@@ -5,11 +5,6 @@ locals {
       id = group.id
   } }
 
-  gl_users = {
-    for user in data.gitlab_users.users.users : user.username => {
-      id   = user.id
-      name = user.username
-  } }
 }
 
 resource "gitlab_group_membership" "group_membership" {
