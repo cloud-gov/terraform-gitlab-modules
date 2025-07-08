@@ -18,5 +18,10 @@ variable "groups" {
     two_factor_grace_period           = optional(number)
     visibility_level                  = optional(string, "internal")
     register_runner                   = optional(bool, false)
+    runner_config = optional(object({
+      tags     = optional(list(string), [])
+      untagged = optional(bool, true)
+      paused   = optional(bool, false)
+    }), {})
   }))
 }

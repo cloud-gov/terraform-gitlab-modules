@@ -99,12 +99,15 @@ resource "gitlab_group_share_group" "group_reporters" {
 }
 
 locals {
-  runner_groups = toset([for name, group in var.groups : name if group.register_runner])
+  runner_groups = { for name, group in var.groups : name => group.runner_config if group.register_runner }
 }
 resource "gitlab_user_runner" "group_runner" {
   for_each = local.runner_groups
 
   runner_type = "group_type"
-  group_id    = gitlab_group.group[each.value].id
-  untagged    = true
+  description = "${gitlab_group.group[each.key].name} Runner"
+  group_id    = gitlab_group.group[each.key].id
+  untagged    = each.value.untagged
+  tag_list    = each.value.tags
+  paused      = each.value.paused
 }
