@@ -14,7 +14,7 @@ variable "users" {
     note              = optional(string)
     password          = optional(string)
     projects_limit    = optional(number)
-    reset_password    = optional(bool, true)
+    reset_password    = optional(bool)
     skip_confirmation = optional(bool)
     state             = optional(string)
   }))
