@@ -13,7 +13,6 @@ locals {
   ])
 }
 
-# Gitlab Users 
 resource "gitlab_project" "project" {
   for_each = var.projects
   #required
@@ -43,7 +42,6 @@ resource "gitlab_project" "project" {
   ci_restrict_pipeline_cancellation_role           = each.value.ci_restrict_pipeline_cancellation_role
   ci_separated_caches                              = each.value.ci_separated_caches
   container_registry_access_level                  = each.value.container_registry_access_level
-  container_registry_enabled                       = each.value.container_registry_enabled
   default_branch                                   = each.value.default_branch
   description                                      = each.value.description
   emails_enabled                                   = each.value.emails_enabled
@@ -106,7 +104,6 @@ resource "gitlab_project" "project" {
   squash_commit_template                           = each.value.squash_commit_template
   squash_option                                    = each.value.squash_option
   suggestion_commit_message                        = each.value.suggestion_commit_message
-  template_name                                    = each.value.template_name
   template_project_id                              = each.value.template_project_id
   topics                                           = each.value.topics
   use_custom_template                              = each.value.use_custom_template
