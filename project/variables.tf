@@ -44,7 +44,6 @@ variable "projects" {
       }
     ))
     container_registry_access_level                  = optional(string)
-    container_registry_enabled                       = optional(bool)
     default_branch                                   = optional(string, "main")
     description                                      = optional(string)
     emails_enabled                                   = optional(bool)
@@ -122,14 +121,12 @@ variable "projects" {
     squash_commit_template                  = optional(string)
     squash_option                           = optional(string)
     suggestion_commit_message               = optional(string)
-    template_name                           = optional(string)
     template_project_id                     = optional(number)
     topics                                  = optional(list(string))
     use_custom_template                     = optional(bool)
     visibility_level                        = optional(string)
     wiki_access_level                       = optional(string)
     wiki_enabled                            = optional(bool)
-
   }))
 }
 
