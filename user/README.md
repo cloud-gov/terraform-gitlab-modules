@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.10 |
-| <a name="requirement_gitlab"></a> [gitlab](#requirement\_gitlab) | ~>17.0 |
+| <a name="requirement_gitlab"></a> [gitlab](#requirement\_gitlab) | ~>18.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_gitlab"></a> [gitlab](#provider\_gitlab) | ~>17.0 |
+| <a name="provider_gitlab"></a> [gitlab](#provider\_gitlab) | ~>18.0.0 |
 
 ## Modules
 
@@ -26,7 +26,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_users"></a> [users](#input\_users) | Map for list of users | <pre>map(object({<br/><br/>    # required<br/>    name     = string<br/>    username = string<br/>    email    = string<br/><br/>    # optional<br/>    can_create_group  = optional(bool, false)<br/>    is_admin          = optional(bool, false)<br/>    is_external       = optional(bool, false)<br/>    note              = optional(string)<br/>    password          = optional(string)<br/>    projects_limit    = optional(number)<br/>    reset_password    = optional(bool, true)<br/>    skip_confirmation = optional(bool)<br/>    state             = optional(string)<br/>  }))</pre> | n/a | yes |
+| <a name="input_users"></a> [users](#input\_users) | Map for list of users | <pre>map(object({<br/><br/>    # required<br/>    name     = string<br/>    username = string<br/>    email    = string<br/><br/>    # optional<br/>    can_create_group      = optional(bool, false)<br/>    is_admin              = optional(bool, false)<br/>    is_external           = optional(bool, false)<br/>    reset_password        = optional(bool, false)<br/>    force_random_password = optional(bool, true)<br/>    note                  = optional(string)<br/>    projects_limit        = optional(number)<br/>    skip_confirmation     = optional(bool)<br/>    state                 = optional(string)<br/>  }))</pre> | n/a | yes |
 
 ## Outputs
 

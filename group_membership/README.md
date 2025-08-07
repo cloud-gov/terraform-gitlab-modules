@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.10 |
-| <a name="requirement_gitlab"></a> [gitlab](#requirement\_gitlab) | ~>17.0 |
+| <a name="requirement_gitlab"></a> [gitlab](#requirement\_gitlab) | ~>18.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_gitlab"></a> [gitlab](#provider\_gitlab) | ~>17.0 |
+| <a name="provider_gitlab"></a> [gitlab](#provider\_gitlab) | ~>18.0.0 |
 
 ## Modules
 
@@ -26,7 +26,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_memberships"></a> [memberships](#input\_memberships) | Map of memberships | <pre>map(object({<br/>    group_id = number<br/>    user_id = number<br/>    access_level = string    <br/>  })<br/>  )</pre> | n/a | yes |
+| <a name="input_memberships"></a> [memberships](#input\_memberships) | Map of memberships | <pre>map(object({<br/>    group_id     = string<br/>    user_id      = string<br/>    access_level = string<br/>    })<br/>  )</pre> | n/a | yes |
 
 ## Outputs
 
