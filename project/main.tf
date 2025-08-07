@@ -31,7 +31,6 @@ resource "gitlab_project" "project" {
   autoclose_referenced_issues                      = each.value.autoclose_referenced_issues
   avatar                                           = each.value.avatar
   avatar_hash                                      = each.value.avatar_hash
-  build_coverage_regex                             = each.value.build_coverage_regex
   build_git_strategy                               = each.value.build_git_strategy
   build_timeout                                    = each.value.build_timeout
   builds_access_level                              = each.value.builds_access_level

@@ -23,7 +23,6 @@ variable "projects" {
     autoclose_referenced_issues                 = optional(bool)
     avatar                                      = optional(string)
     avatar_hash                                 = optional(string)
-    build_coverage_regex                        = optional(string)
     build_git_strategy                          = optional(string)
     build_timeout                               = optional(number)
     builds_access_level                         = optional(string)
