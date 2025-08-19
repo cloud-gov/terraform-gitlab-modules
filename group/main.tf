@@ -4,7 +4,7 @@ resource "gitlab_group" "group" {
 
   # required
   name = each.value.name
-  path = each.value.path
+  path = coalesce(each.value.path, each.key)
 
   # optional
   parent_id                         = lookup(each.value, "parent_id")
