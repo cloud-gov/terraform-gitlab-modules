@@ -3,7 +3,7 @@ variable "groups" {
   description = "Map for list of groups"
   type = map(object({
     name                              = string
-    path                              = string
+    path                              = optional(string)
     auto_devops_enabled               = optional(bool, false)
     description                       = optional(string, "")
     default_branch                    = optional(string, "main")
