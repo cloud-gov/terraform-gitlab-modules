@@ -81,7 +81,7 @@ resource "gitlab_project" "project" {
   only_mirror_protected_branches                   = each.value.only_mirror_protected_branches
   packages_enabled                                 = each.value.packages_enabled
   pages_access_level                               = each.value.pages_access_level
-  path                                             = each.value.path
+  path                                             = coalesce(each.value.path, each.key)
   pre_receive_secret_detection_enabled             = each.value.pre_receive_secret_detection_enabled
   prevent_merge_without_jira_issue                 = each.value.prevent_merge_without_jira_issue
   printing_merge_request_link_enabled              = each.value.printing_merge_request_link_enabled
